@@ -1,7 +1,8 @@
 import axios from "axios"
 
 // Base URL configuration
-const BASE_URL = "http://localhost:8000"
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://backend-xi-beige.vercel.app/"
 
 export const api = axios.create({
   baseURL: BASE_URL,
