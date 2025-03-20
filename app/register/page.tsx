@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { useSearchParams } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Eye, EyeOff } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { useAuth } from "@/lib/auth-context"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useAuth } from "@/lib/auth-context";
 
 const registerSchema = z
   .object({
@@ -34,14 +34,14 @@ const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  })
+  });
 
 export default function RegisterPage() {
-  const { register, isLoading } = useAuth()
-  const searchParams = useSearchParams()
-  const userType = searchParams.get("type") as "client" | "freelancer" | null
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const { register, isLoading } = useAuth();
+  const searchParams = useSearchParams();
+  const userType = searchParams.get("type") as "client" | "freelancer" | null;
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -53,10 +53,10 @@ export default function RegisterPage() {
       last_name: "",
       user_type: userType || "freelancer",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
-    const { confirmPassword, ...registerData } = values
+    const { confirmPassword, ...registerData } = values;
 
     // Make sure we're using the exact field names the backend expects
     await register({
@@ -65,17 +65,17 @@ export default function RegisterPage() {
       first_name: registerData.first_name,
       last_name: registerData.last_name,
       user_type: registerData.user_type,
-    })
+    });
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[450px]">
-        <div className="flex flex-col space-y-2 text-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
           <p className="text-sm text-muted-foreground">Enter your information to create an account</p>
         </div>
-        <Card>
+        <Card className="mt-6">
           <CardHeader>
             <CardTitle className="text-xl">Register</CardTitle>
             <CardDescription>Fill out the form below to create your account</CardDescription>
@@ -221,6 +221,5 @@ export default function RegisterPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-
